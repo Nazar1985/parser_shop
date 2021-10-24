@@ -1,21 +1,11 @@
 import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from fake_useragent import UserAgent
 from selenium.webdriver.firefox.service import Service
 from multiprocessing import Pool
-from webdriver_manager.firefox import GeckoDriverManager
+from fake_useragent import UserAgent
 
 
-# Заголовки для запуска браузера. в текущей версии не используются
-headers = {
-    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
-    "Cache-Control": "max-age=0",
-    "Connection": "keep-alive",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0"
-}
 """
 Вручную сформированный словарь категорий (не полный перечень). 
 В дальнейшем необходимо предусмотреть возможность получать автоматически весь словарь категорий и подкатегорий.
@@ -32,20 +22,21 @@ category_list = {'a': ['Компьютерные технологии', 'kompyut
                  'j': ['Машинное обучение', 'mashinnoe-obuchenie-35674'],
                  'k': ['Языки программирования', 'yazyki-programmirovaniya-33705']
                  }
-# Множество доступных букв для выбора категорий
+# Множество доступных букв для ограничения выбора категорий
 # сформировано вручную, необходимо автоматизировать формирование из словаря выше.
 alpha = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'}
-"""
-Отображение спика категорий в терминале (нужно упковать в функцию, чтобы вызывать повторно). 
-Как вариант можно внести в функцию select_category, но дядушка Боб будет ругаться.
-"""
-for k, v in category_list.items():
-    print(k + ': ', v[0])
-
 url_category = 'https://www.ozon.ru/category/'
 url_test_category = "https://www.ozon.ru/category/kompyuternye-tehnologii-40020/?page=100"
 # https://www.ozon.ru/category/kompyuternye-tehnologii-40020/?page=2
-# Простите, произошла ошибка. Попробуйте обновить страницу или вернуться на шаг назад
+
+
+def print_list_category():
+    """
+    Отображение спика категорий в терминале (нужно упковать в функцию, чтобы вызывать повторно).
+    Как вариант можно внести в функцию select_category, но дядушка Боб будет ругаться ))
+    """
+    for k, v in category_list.items():
+        print(k + ': ', v[0])
 
 
 def print_pages_count(n):
@@ -70,6 +61,7 @@ def select_category(category):
     :param category: получение словаря категорий.
     :return: возвращает ссылку на выбранную категорию.
     """
+    print_list_category()  # Временное решение. При выводе запускаемых файлов переопределить место вызова
     while True:
         choice = input('Выберите категорию:').strip()
         if choice.isalpha() and choice in alpha:
@@ -85,7 +77,7 @@ def list_links(url, category):
     :return: список категорий в виде генератора
     """
     links_list = []
-    for n in range(1, 2):    # в целях отладки указал верхний предел 5, в дальнейшем поставить 500
+    for n in range(1, 2):    # в целях отладки указал верхний предел 2, в дальнейшем поставить 500
         link = url + category + "/?page=" + str(n)
         links_list.append(link)
     return links_list
@@ -102,17 +94,6 @@ def get_page(url):
     # options.set_preference('general.useragent.override', user_agent.random)
     options.set_preference('general.useragent.override',
                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0")
-    # set proxy
-    # proxy = "138.128.91.65:8000"
-    # firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
-    # firefox_capabilities["marionette"] = True
-    # firefox_capabilities["proxy"] = {
-    #     "proxyType": "MANUAL",
-    #     "httpProxy": proxy,
-    #     "ftpProxy": proxy,
-    #     "sslProxy": proxy
-    # }
-
     service = Service("geckodriver.exe")
     driver = webdriver.Firefox(service=service, options=options)
     try:
@@ -137,7 +118,7 @@ def iter_of_pages(urls):
     :return:
     """
     n_pages = 0
-    text_error = 'Простите, произошла ошибка'
+    text_error = '`Простите`, произошла ошибка'
     for url in urls:
         get_page(url)
         with open("index.html", encoding='utf-8') as file:
@@ -162,6 +143,11 @@ def get_all_items(src):
 
 
 def get_info(books):
+    """
+
+    :param books:
+    :return:
+    """
     data_books = dict()
     for book in books:
         # Наименование книги
