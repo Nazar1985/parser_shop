@@ -1618,3 +1618,68 @@ JavaScript error: resource:///modules/Interactions.jsm, line 201: NS_ERROR_FAILU
 
 ###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
 
+1635073086064	geckodriver	INFO	Listening on 127.0.0.1:55955
+1635073089200	mozrunner::runner	INFO	Running command: "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "55956" "-no-remote" "-profile" "C:\\Users\\5B34~1\\AppData\\Local\\Temp\\rust_mozprofileAmjVlX"
+1635073089620	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\\u041D\u0430\u0437\u0430\u0440\\AppData\\Local\\Temp\\rust_mozprofileAmjVlX\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:55956/devtools/browser/7cb7e12b-744a-4df2-85ee-b964805cc806
+1635073091615	Marionette	INFO	Listening on port 55961
+1635073091971	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1635073092768	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+1635073097823	Marionette	INFO	Stopped listening on port 55961
+JavaScript error: resource:///modules/Interactions.jsm, line 201: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIUserIdleService.removeIdleObserver]
+1635073170822	geckodriver	INFO	Listening on 127.0.0.1:56079
+1635073173904	mozrunner::runner	INFO	Running command: "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "56080" "-no-remote" "-profile" "C:\\Users\\5B34~1\\AppData\\Local\\Temp\\rust_mozprofileMaG4vU"
+1635073174209	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\\u041D\u0430\u0437\u0430\u0440\\AppData\\Local\\Temp\\rust_mozprofileMaG4vU\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:56080/devtools/browser/fadbb329-74fa-4729-bc18-d299980217e7
+1635073175834	Marionette	INFO	Listening on port 56085
+1635073176016	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1635073176904	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+1635073181927	Marionette	INFO	Stopped listening on port 56085
+JavaScript error: resource:///modules/Interactions.jsm, line 201: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIUserIdleService.removeIdleObserver]
+1635073220011	geckodriver	INFO	Listening on 127.0.0.1:56198
+1635073223114	mozrunner::runner	INFO	Running command: "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "56199" "-no-remote" "-profile" "C:\\Users\\5B34~1\\AppData\\Local\\Temp\\rust_mozprofile6THfST"
+1635073223526	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\\u041D\u0430\u0437\u0430\u0440\\AppData\\Local\\Temp\\rust_mozprofile6THfST\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:56199/devtools/browser/2a2d3a2d-d6f1-4504-b513-5fa75b261d3b
+1635073225349	Marionette	INFO	Listening on port 56205
+1635073225853	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1635073226666	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+1635073231664	Marionette	INFO	Stopped listening on port 56205
+JavaScript error: chrome://global/content/elements/browser-custom-element.js, line 1666: NotFoundError: No such JSWindowActor 'MarionetteEvents'
+JavaScript error: resource:///modules/Interactions.jsm, line 201: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIUserIdleService.removeIdleObserver]
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1635073266492	geckodriver	INFO	Listening on 127.0.0.1:56329
+1635073269578	mozrunner::runner	INFO	Running command: "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "56330" "-no-remote" "-profile" "C:\\Users\\5B34~1\\AppData\\Local\\Temp\\rust_mozprofileBoXMGM"
+1635073269850	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\\u041D\u0430\u0437\u0430\u0440\\AppData\\Local\\Temp\\rust_mozprofileBoXMGM\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:56330/devtools/browser/bf19d1dc-6114-4534-9744-22568fe160f8
+1635073271797	Marionette	INFO	Listening on port 56335
+1635073272279	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1635073273829	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+1635073278855	Marionette	INFO	Stopped listening on port 56335
+JavaScript error: resource:///modules/Interactions.jsm, line 201: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIUserIdleService.removeIdleObserver]
+1635073744719	geckodriver	INFO	Listening on 127.0.0.1:56486
+1635073747737	mozrunner::runner	INFO	Running command: "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "56487" "-no-remote" "-profile" "C:\\Users\\5B34~1\\AppData\\Local\\Temp\\rust_mozprofilenTrlcP"
+1635073748120	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\\u041D\u0430\u0437\u0430\u0440\\AppData\\Local\\Temp\\rust_mozprofilenTrlcP\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:56487/devtools/browser/471bef5f-fc16-4127-ab2f-92a2fd06c65c
+1635073749923	Marionette	INFO	Listening on port 56492
+1635073749952	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1635073750734	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+JavaScript warning: https://www.googletagmanager.com/gtm.js?id=GTM-MW7FLG5, line 339: unreachable code after return statement
+1635073755745	Marionette	INFO	Stopped listening on port 56492
+JavaScript error: resource:///modules/Interactions.jsm, line 201: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIUserIdleService.removeIdleObserver]
+[Parent 11688, IPC I/O Parent] WARNING: pipe error: 232: file /builds/worker/checkouts/gecko/ipc/chromium/src/chrome/common/ipc_channel_win.cc:544

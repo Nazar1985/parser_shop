@@ -125,6 +125,7 @@ def iter_of_pages(urls):
             src = file.read()
         if text_error in src:
             break
+        get_link(src)
         get_info(get_all_items(src))
         n_pages += 1
     print_pages_count(n_pages)
@@ -150,10 +151,11 @@ def get_info(books):
     """
     data_books = dict()
     for book in books:
+        print(book)
         # Наименование книги
-        if book.find("span", class_='a7y a8a2 a8a6 a8b2'):
-            book_name = book.find("span", class_='a7y a8a2 a8a6 a8b2')
-            data_books['name'] = book_name.text.strip()
+        # if book.find("span", class_='a7y a8a2 a8a6 a8b2'):
+        book_name = book.find("span", class_='a7y a8a2 a8a6 a8b2')
+        data_books['name'] = book_name  # .text.strip()
         # Цена со скидкой
         if book.find("span", class_='_2DV4 _17o0 _1v1b'):
             book_name1 = book.find("span", class_='_2DV4 _17o0 _1v1b')
@@ -169,6 +171,13 @@ def get_info(books):
         # data_books[book] = 1
         print(data_books)
 
+
+def get_link(src):
+    soup = BeautifulSoup(src, 'lxml')
+    book_cards = soup.find_all("div", class_="bj4 a8p1")
+    for book_url in book_cards:
+        book_url = "https://www.ozon.ru" + book_url.find("a").get("href")
+        print(book_url)
 
 def main():
     """
