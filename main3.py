@@ -94,7 +94,7 @@ def get_page(url):
     # options.set_preference('general.useragent.override', user_agent.random)
     options.set_preference('general.useragent.override',
                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0")
-    service = Service("geckodriver.exe")
+    service = Service("/home/cody/PycharmProjects/parser_shop/geckodriver")
     driver = webdriver.Firefox(service=service, options=options)
     try:
         # driver = webdriver.Firefox(executable_path='geckodriver.exe', options=options)
