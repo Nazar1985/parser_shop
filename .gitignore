@@ -1,0 +1,9 @@
+venv_parser/
+__pycache__/
+.idea/
+
+*.exe
+*.log
+index.html
+geckodriver
+

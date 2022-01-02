@@ -1,11 +1,10 @@
-import time
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
+from get_page import get_page
 from multiprocessing import Pool
 from fake_useragent import UserAgent
 
 
+data_books = dict()     # Временное хранилище данных.
 """
 Вручную сформированный словарь категорий (не полный перечень). 
 В дальнейшем необходимо предусмотреть возможность получать автоматически весь словарь категорий и подкатегорий.
@@ -61,9 +60,9 @@ def select_category(category):
     :param category: получение словаря категорий.
     :return: возвращает ссылку на выбранную категорию.
     """
-    print_list_category()  # Временное решение. При выводе запускаемых файлов переопределить место вызова
+    # print_list_category()  # Временное решение. При выводе запускаемых файлов переопределить место вызова
     while True:
-        choice = input('Выберите категорию:').strip()
+        choice = 'c'  # input('Выберите категорию:').strip() - после отладки восстановить запрос
         if choice.isalpha() and choice in alpha:
             print('Вы выбрали категорию: ' + category[choice][0])
             return category[choice][1]
@@ -83,32 +82,12 @@ def list_links(url, category):
     return links_list
 
 
-def get_page(url):
-    """
-    Основной функционал поучения страницы укзаанной во вхоном параметре
-    :param url:
-    :return:
-    """
-    options = webdriver.FirefoxOptions()
-    # user_agent = UserAgent()
-    # options.set_preference('general.useragent.override', user_agent.random)
-    options.set_preference('general.useragent.override',
-                           "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0")
-    service = Service("/home/cody/PycharmProjects/parser_shop/geckodriver")
-    driver = webdriver.Firefox(service=service, options=options)
-    try:
-        # driver = webdriver.Firefox(executable_path='geckodriver.exe', options=options)
-        driver.get(url=url)
-        time.sleep(4)
-
-        with open("index.html", 'w', encoding='utf-8') as file:
-            file.write(driver.page_source)
-
-    except Exception as ex:
-        print('Except: ', ex)
-    finally:
-        driver.close()
-        driver.quit()
+def get_link(src):
+    soup = BeautifulSoup(src, 'lxml')
+    book_cards = soup.find_all("div", class_="bj4 a8p1")
+    for book_url in book_cards:
+        book_url = "https://www.ozon.ru" + book_url.find("a").get("href")
+        yield book_url
 
 
 def iter_of_pages(urls):
@@ -125,11 +104,10 @@ def iter_of_pages(urls):
             src = file.read()
         if text_error in src:
             break
-        get_link(src)
-        get_info(get_all_items(src))
+        # get_link(src)
+        get_info_of_books(src)
         n_pages += 1
     print_pages_count(n_pages)
-    return 'a'
 
 
 def get_all_items(src):
@@ -143,41 +121,63 @@ def get_all_items(src):
     return books_on_list
 
 
-def get_info(books):
+def get_info_of_books(src):
     """
-
     :param books:
     :return:
     """
-    data_books = dict()
-    for book in books:
-        print(book)
-        # Наименование книги
-        # if book.find("span", class_='a7y a8a2 a8a6 a8b2'):
-        book_name = book.find("span", class_='a7y a8a2 a8a6 a8b2')
-        data_books['name'] = book_name  # .text.strip()
-        # Цена со скидкой
-        if book.find("span", class_='_2DV4 _17o0 _1v1b'):
-            book_name1 = book.find("span", class_='_2DV4 _17o0 _1v1b')
-        # Цена без скидки
-        if book.find("span", class_='skSe _17o0'):
-            book_name2 = book.find("span", class_='skSe _17o0')
-        # Цена с купоном
-        if book.find("span", class_='a7y a8a2 a8a6 a8b6'):
-            book_name3 = book.find("span", class_='a7y a8a2 a8a6 a8b6')
-        # Часть ссылки для перехода к книге
-        if book.find("span", class_='a7y a8a2 a8a6 a8b2'):
-            book_name4 = book.find("span", class_='a7y a8a2 a8a6 a8b2')
-        # data_books[book] = 1
-        print(data_books)
-
-
-def get_link(src):
     soup = BeautifulSoup(src, 'lxml')
-    book_cards = soup.find_all("div", class_="bj4 a8p1")
-    for book_url in book_cards:
-        book_url = "https://www.ozon.ru" + book_url.find("a").get("href")
-        print(book_url)
+    books_on_list = soup.find_all("div", class_="bi1")
+    for book in books_on_list:
+        name = book.find("span", class_='a7y a8a2 a8a6 a8b2 f-tsBodyL bj5')
+        cost_with_discount = book.find("span", class_='_2DV4 _17o0 _1v1b')
+        cost_without_discount = book.find("span", class_='skSe _17o0')
+        cost_full = book.find("span", class_='_2DV4 _17o0')
+        book_url = book.find("a", class_="tile-hover-target bj5").get("href")
+        book_publisher = book.find("span", class_="a7y a8a2 a8a5 a8b6 f-tsBodyM b0d3")
+        print(cost_with_discount, cost_without_discount, cost_full)
+        print(book_publisher, name)
+        if name:
+            name = name.text.strip()
+            if name not in data_books:
+                data_books[name] = {
+                    "name": name,
+                    'n': 1
+                }
+            # Действия при условии иначе необходимо проверить. Не проверял 26.10.2021
+            # Данное действие переименовывает ключ (название книги)
+            # Счетчик не актуальных подход. Можно удалить.
+            # При подключении БД необходимо настроить сохранение не по названию книги, а по ID.
+            # чтобы можно было сравнить все цены всех версий книги.
+            else:
+                data_books[name + str(data_books[name]['n'])] = {
+                    "name": name,
+                    'n': data_books[name]['n'] + 1
+                }
+        if cost_with_discount:
+            cost_with_discount = ''.join(cost_with_discount.text.strip().split('\u2009'))[:-1]
+            print(cost_with_discount)
+            data_books[name]["cost_with_discount"] = cost_with_discount
+        if cost_without_discount:
+            cost_without_discount = ''.join(cost_without_discount.text.strip().split('\u2009'))[:-1]
+            print(cost_without_discount)
+            data_books[name]["cost_without_discount"] = cost_without_discount
+        if cost_full:
+            cost_full = ''.join(cost_full.text.strip().split('\u2009'))[:-1]
+            print(cost_full)
+            data_books[name]["cost_full"] = cost_full
+        if book_url:
+            book_url = "https://www.ozon.ru" + book_url.strip()
+            data_books[name]["book_url"] = book_url
+        if book_publisher:
+            book_publisher = ''.join(book_publisher.text.strip().split('Доставит Ozon, продавец '))
+            data_books[name]["book_publisher"] = book_publisher
+    n = 0
+    for data in data_books.items():
+        n += 1
+        print(n, data)
+    # book_url = "https://www.ozon.ru" + book_url.find("a").get("href")
+
 
 def main():
     """
