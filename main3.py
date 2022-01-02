@@ -1,9 +1,11 @@
 from bs4 import BeautifulSoup
 from get_page import get_page
+from scraping_price_classes import scraper_prices
+
 from multiprocessing import Pool
 from fake_useragent import UserAgent
 
-
+class_cost_with_discount, class_cost_without_discount, class_cost_full = scraper_prices()
 data_books = dict()     # Временное хранилище данных.
 """
 Вручную сформированный словарь категорий (не полный перечень). 
@@ -104,7 +106,6 @@ def iter_of_pages(urls):
             src = file.read()
         if text_error in src:
             break
-        # get_link(src)
         get_info_of_books(src)
         n_pages += 1
     print_pages_count(n_pages)
@@ -128,15 +129,16 @@ def get_info_of_books(src):
     """
     soup = BeautifulSoup(src, 'lxml')
     books_on_list = soup.find_all("div", class_="bi1")
+
     for book in books_on_list:
         name = book.find("span", class_='a7y a8a2 a8a6 a8b2 f-tsBodyL bj5')
-        cost_with_discount = book.find("span", class_='_2DV4 _17o0 _1v1b')
-        cost_without_discount = book.find("span", class_='skSe _17o0')
-        cost_full = book.find("span", class_='_2DV4 _17o0')
+        cost_with_discount = book.find("span", class_=class_cost_with_discount)
+        cost_without_discount = book.find("span", class_=class_cost_without_discount)
+        cost_full = book.find("span", class_=class_cost_full)
         book_url = book.find("a", class_="tile-hover-target bj5").get("href")
         book_publisher = book.find("span", class_="a7y a8a2 a8a5 a8b6 f-tsBodyM b0d3")
-        print(cost_with_discount, cost_without_discount, cost_full)
-        print(book_publisher, name)
+        # print(cost_with_discount, cost_without_discount, cost_full)
+        # print(book_publisher, name)
         if name:
             name = name.text.strip()
             if name not in data_books:
@@ -146,7 +148,7 @@ def get_info_of_books(src):
                 }
             # Действия при условии иначе необходимо проверить. Не проверял 26.10.2021
             # Данное действие переименовывает ключ (название книги)
-            # Счетчик не актуальных подход. Можно удалить.
+            # Счетчик не актуальный подход. Можно удалить.
             # При подключении БД необходимо настроить сохранение не по названию книги, а по ID.
             # чтобы можно было сравнить все цены всех версий книги.
             else:
@@ -156,15 +158,15 @@ def get_info_of_books(src):
                 }
         if cost_with_discount:
             cost_with_discount = ''.join(cost_with_discount.text.strip().split('\u2009'))[:-1]
-            print(cost_with_discount)
+            # print(cost_with_discount)
             data_books[name]["cost_with_discount"] = cost_with_discount
         if cost_without_discount:
             cost_without_discount = ''.join(cost_without_discount.text.strip().split('\u2009'))[:-1]
-            print(cost_without_discount)
+            # print(cost_without_discount)
             data_books[name]["cost_without_discount"] = cost_without_discount
         if cost_full:
             cost_full = ''.join(cost_full.text.strip().split('\u2009'))[:-1]
-            print(cost_full)
+            # print(cost_full)
             data_books[name]["cost_full"] = cost_full
         if book_url:
             book_url = "https://www.ozon.ru" + book_url.strip()
@@ -184,6 +186,7 @@ def main():
     Функция содержащая всю логику приложения. Точка запуска
     :return:
     """
+
     iter_of_pages(list_links(url_category, select_category(category_list)))
     # get_list_pages(url_grand)
     # get_page()
