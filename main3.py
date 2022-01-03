@@ -137,7 +137,7 @@ def get_info_of_books(src):
         cost_without_discount = book.find("span", class_=class_cost_without_discount)
         cost_full = book.find("span", class_=class_cost_full)
         book_url = book.find("a", class_="tile-hover-target bj5").get("href")
-        book_publisher = book.find("span", class_="a7y a8a2 a8a5 a8b6 f-tsBodyM b0d3")
+        # book_publisher = book.find("span", class_="a7y a8a2 a8a5 a8b6 f-tsBodyM b0d3")
         if name:
             name = name.text.strip()
             if name not in data_books:
@@ -168,9 +168,9 @@ def get_info_of_books(src):
         if book_url:
             book_url = "https://www.ozon.ru" + book_url.strip()
             data_books[name]["book_url"] = book_url
-        if book_publisher:
-            book_publisher = ''.join(book_publisher.text.strip().split('доставит Ozon, продавец '))
-            data_books[name]["book_publisher"] = book_publisher
+        # if book_publisher:
+        #     book_publisher = ''.join(book_publisher.text.strip().split('доставит Ozon, продавец '))
+        #     data_books[name]["book_publisher"] = book_publisher
     n = 0
     for data in data_books.items():
         n += 1
