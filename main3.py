@@ -1,9 +1,11 @@
 from bs4 import BeautifulSoup
 from get_page import get_page
+from get_favorites_auth import get_favorites_with_auth
 from scraping_price_classes import scraper_prices
+import settings
 
-from multiprocessing import Pool
-from fake_useragent import UserAgent
+# from multiprocessing import Pool
+# from fake_useragent import UserAgent
 
 class_cost_with_discount, class_cost_without_discount, class_cost_full = scraper_prices()
 data_books = dict()     # Временное хранилище данных.
@@ -102,7 +104,7 @@ def iter_of_pages(urls):
     text_error = '`Простите`, произошла ошибка'
     for url in urls:
         get_page(url)
-        with open("index.html", encoding='utf-8') as file:
+        with open("temp_and_personal_data/index.html", encoding='utf-8') as file:
             src = file.read()
         if text_error in src:
             break
@@ -124,11 +126,10 @@ def get_all_items(src):
 
 def get_info_of_books(src):
     """
-    :param books:
+
     :return:
     """
-    soup = BeautifulSoup(src, 'lxml')
-    books_on_list = soup.find_all("div", class_="bi1")
+    books_on_list = get_all_items(src)
 
     for book in books_on_list:
         name = book.find("span", class_='a7y a8a2 a8a6 a8b2 f-tsBodyL bj5')
@@ -137,8 +138,6 @@ def get_info_of_books(src):
         cost_full = book.find("span", class_=class_cost_full)
         book_url = book.find("a", class_="tile-hover-target bj5").get("href")
         book_publisher = book.find("span", class_="a7y a8a2 a8a5 a8b6 f-tsBodyM b0d3")
-        # print(cost_with_discount, cost_without_discount, cost_full)
-        # print(book_publisher, name)
         if name:
             name = name.text.strip()
             if name not in data_books:
@@ -151,6 +150,7 @@ def get_info_of_books(src):
             # Счетчик не актуальный подход. Можно удалить.
             # При подключении БД необходимо настроить сохранение не по названию книги, а по ID.
             # чтобы можно было сравнить все цены всех версий книги.
+            # внести параметр счетчик для повторяющихся книг
             else:
                 data_books[name + str(data_books[name]['n'])] = {
                     "name": name,
@@ -158,21 +158,18 @@ def get_info_of_books(src):
                 }
         if cost_with_discount:
             cost_with_discount = ''.join(cost_with_discount.text.strip().split('\u2009'))[:-1]
-            # print(cost_with_discount)
             data_books[name]["cost_with_discount"] = cost_with_discount
         if cost_without_discount:
             cost_without_discount = ''.join(cost_without_discount.text.strip().split('\u2009'))[:-1]
-            # print(cost_without_discount)
             data_books[name]["cost_without_discount"] = cost_without_discount
         if cost_full:
             cost_full = ''.join(cost_full.text.strip().split('\u2009'))[:-1]
-            # print(cost_full)
             data_books[name]["cost_full"] = cost_full
         if book_url:
             book_url = "https://www.ozon.ru" + book_url.strip()
             data_books[name]["book_url"] = book_url
         if book_publisher:
-            book_publisher = ''.join(book_publisher.text.strip().split('Доставит Ozon, продавец '))
+            book_publisher = ''.join(book_publisher.text.strip().split('доставит Ozon, продавец '))
             data_books[name]["book_publisher"] = book_publisher
     n = 0
     for data in data_books.items():

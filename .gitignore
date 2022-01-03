@@ -1,8 +1,9 @@
 venv_parser/
 __pycache__/
 .idea/
+temp_and_personal_data/
 
-*.exe
-*.log
-index.html
 geckodriver
+geckodriver.log
+
+

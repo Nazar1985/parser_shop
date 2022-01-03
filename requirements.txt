@@ -5,6 +5,7 @@ beautifulsoup4==4.10.0
 bs4==0.0.1
 certifi==2021.10.8
 cffi==1.15.0
+charset-normalizer==2.0.9
 constantly==15.1.0
 cryptography==35.0.0
 cssselect==1.1.0
@@ -29,7 +30,9 @@ pyasn1-modules==0.2.8
 pycparser==2.20
 PyDispatcher==2.0.5
 pyOpenSSL==21.0.0
+pyTelegramBotAPI==4.2.2
 queuelib==1.6.2
+requests==2.26.0
 Scrapy==2.5.1
 selenium==4.0.0
 service-identity==21.1.0

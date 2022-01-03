@@ -1,24 +1,21 @@
-import time
-from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
+from selenium import webdriver
 import settings
+import time
+import pickle
 
-def get_page(url):
-    """
-    Основной функционал поучения страницы указанной во входном параметре
-    :param url:
-    :return: None
-    """
+
+def get_my_cookies():
     options = webdriver.FirefoxOptions()
     options.set_preference('general.useragent.override',
                            settings.USER_AGENT)
     service = Service("./geckodriver")
     driver = webdriver.Firefox(service=service, options=options)
     try:
-        driver.get(url=url)
-        time.sleep(4)
-        with open("temp_and_personal_data/index.html", 'w', encoding='utf-8') as file:
-            file.write(driver.page_source)
+        driver.get("https://www.ozon.ru/my/favorites")
+        time.sleep(100)  # time for manual authentication
+        pickle.dump(driver.get_cookies(), open(f"/temp_and_personal_data/my_cookies", "wb"))
+
     except Exception as ex:
         print('Except: ', ex)
     finally:

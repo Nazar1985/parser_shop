@@ -8,7 +8,7 @@ def scraper_prices():
     """
     url = "https://www.ozon.ru/category/kompyuternye-tehnologii-40020/"
     get_page(url)
-    with open("index.html", encoding='utf-8') as file:
+    with open("temp_and_personal_data/index.html", encoding='utf-8') as file:
         src = file.read()
         only_class = SoupStrainer(class_="bi1")
         soup = BeautifulSoup(src, 'lxml', parse_only=only_class)
