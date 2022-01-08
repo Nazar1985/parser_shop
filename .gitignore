@@ -5,3 +5,4 @@ temp_and_personal_data/
 
 geckodriver
 geckodriver.log
+*.db

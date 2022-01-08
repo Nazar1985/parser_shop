@@ -1,6 +1,7 @@
 from selenium.webdriver.firefox.service import Service
 from selenium import webdriver
 import settings
+from settings.links import TO_SCRAP_CATEGORY
 import time
 import pickle
 
@@ -12,9 +13,9 @@ def get_favorites_with_auth():
     service = Service("./geckodriver")
     driver = webdriver.Firefox(service=service, options=options)
     try:
-        driver.get("https://www.ozon.ru/my/favorites")
+        driver.get(TO_SCRAP_CATEGORY)
         time.sleep(2)
-        for cookie in pickle.load(open(f"./temp_and_personal_data/my_cookies", "rb")):
+        for cookie in pickle.load(open(f"my_cookies", "rb")):
             driver.add_cookie(cookie)
         time.sleep(2)
         driver.refresh()

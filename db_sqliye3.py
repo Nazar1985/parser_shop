@@ -1,9 +1,9 @@
 import os
 import sqlite3
-import settings
+from sqlite3 import Error
 
 
-def create_db(db_name, db_schema_filename):
+def create_schema_db(db_name, db_schema_filename):
     """ If file not exist then Create DB file"""
     with sqlite3.connect(db_name, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
         if not os.path.exists(db_name):
@@ -12,23 +12,38 @@ def create_db(db_name, db_schema_filename):
             conn.executescript(schema)
 
 
-def set_data(db_name):
+def create_connection(path):
+    connection = None
+    try:
+        connection = sqlite3.connect(path, detect_types=sqlite3.PARSE_DECLTYPES)
+        print("Connection to SQLite DB successful")
+    except Error as e:
+        print(f"The error '{e}' occurred")
+
+    return connection
+
+
+def set_data(conn):
     """ Create data """
-    if not os.path.exists(db_name):
-        create_db(settings.DB_NAME, settings.DB_SCHEMA_FILENAME)
-    else:
-        with sqlite3.connect(db_name, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
-            cursor = conn.cursor()
+    pass
 
 
-def get_data(db_name):
+def get_data(conn):
     """ Read data """
-    if not os.path.exists(db_name):
-        create_db(settings.DB_NAME, settings.DB_SCHEMA_FILENAME)
-    else:
-        with sqlite3.connect(db_name, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
-            cursor = conn.cursor()
+    pass
+
+
+def update_data(conn):
+    """ Update data """
+    pass
+
+
+def delete_data(conn):
+    """ Delete data """
+    pass
 
 
 if __name__ == '__main__':
-    pass
+    create_schema_db('./temp_and_personal_data/parser.db', 'parser_schema.sql')
+    create_connection('./temp_and_personal_data/parser.db')
+

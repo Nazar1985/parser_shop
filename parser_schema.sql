@@ -41,5 +41,6 @@ create table category (
     id_category                     integer primary key autoincrement not null,
     alpha_category                  text,
     true_name_category              text,
-    slug_name_category              text
+    slug_name_category              text,
+    link_category                   text
 )
